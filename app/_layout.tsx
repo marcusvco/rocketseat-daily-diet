@@ -1,3 +1,4 @@
+import { colors } from "@/constants/colors"
 import {
   NunitoSans_400Regular,
   NunitoSans_700Bold,
@@ -7,6 +8,7 @@ import { DefaultTheme, ThemeProvider } from "@react-navigation/native"
 import { SplashScreen, Stack } from "expo-router"
 import { StatusBar } from "expo-status-bar"
 import { useEffect } from "react"
+import { SafeAreaView } from "react-native-safe-area-context"
 
 SplashScreen.preventAutoHideAsync()
 
@@ -24,8 +26,10 @@ export default function RootLayout() {
 
   return (
     <ThemeProvider value={DefaultTheme}>
-      <StatusBar style="dark" />
-      <Stack screenOptions={{ headerShown: false }} />
+      <StatusBar style="dark" backgroundColor={colors.white} />
+      <SafeAreaView className="flex-1">
+        <Stack screenOptions={{ headerShown: false }} />
+      </SafeAreaView>
     </ThemeProvider>
   )
 }

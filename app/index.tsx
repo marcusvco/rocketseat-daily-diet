@@ -1,13 +1,20 @@
-import { fonts } from "@/constants/fonts"
-import { Text, View } from "react-native"
+import { StyleSheet, View } from "react-native"
 import "../global.css"
+import Header from "@/components/header"
+import { colors } from "@/constants/colors"
 
 export default function Index() {
   return (
-    <View className="flex-1 justify-center items-center">
-      <Text style={{ fontFamily: fonts.family.regular }}>
-        Edit app/index.tsx to edit this screen.
-      </Text>
+    <View style={styles.container}>
+      <Header />
     </View>
   )
 }
+
+const styles = StyleSheet.create({
+  container: {
+    flex: 1,
+    padding: 24,
+    backgroundColor: colors.white,
+  },
+})
