@@ -2,11 +2,13 @@ import { StyleSheet, View } from "react-native"
 import "../global.css"
 import Header from "@/components/header"
 import { colors } from "@/constants/colors"
+import Highlight from "@/components/highlight"
 
 export default function Index() {
   return (
     <View style={styles.container}>
       <Header />
+      <Highlight percentage={90.2} />
     </View>
   )
 }
