@@ -1,4 +1,5 @@
-import { Text, View } from "react-native";
+import { fonts } from "@/constants/fonts"
+import { Text, View } from "react-native"
 
 export default function Index() {
   return (
@@ -9,7 +10,9 @@ export default function Index() {
         alignItems: "center",
       }}
     >
-      <Text>Edit app/index.tsx to edit this screen.</Text>
+      <Text style={{ fontFamily: fonts.family.regular }}>
+        Edit app/index.tsx to edit this screen.
+      </Text>
     </View>
-  );
+  )
 }
