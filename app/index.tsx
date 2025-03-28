@@ -7,6 +7,7 @@ import { fonts } from "@/constants/fonts"
 import Button from "@/components/button"
 import { Plus } from "phosphor-react-native"
 import MealsSectionList from "@/components/meals-section-list"
+import { useRouter } from "expo-router"
 
 const data = [
   {
@@ -52,15 +53,28 @@ const data = [
 ]
 
 export default function Index() {
+  const router = useRouter()
   return (
     <View style={styles.container}>
       <Header />
 
-      <Highlight percentage={90.2} />
+      <Highlight
+        percentage={90.2}
+        onPress={() =>
+          router.navigate({
+            pathname: "/dashboard",
+            params: { percentage: 90.2 },
+          })
+        }
+      />
 
       <View style={styles.meals}>
         <Text style={styles.text}>Refeições</Text>
-        <Button text="Nova refeição" Icon={Plus} />
+        <Button
+          text="Nova refeição"
+          Icon={Plus}
+          onPress={() => router.navigate("/new-meal")}
+        />
       </View>
 
       <MealsSectionList data={data} />

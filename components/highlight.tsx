@@ -10,10 +10,12 @@ import {
 
 interface Props {
   percentage: number
+  onPress: () => void
 }
 
 export default function Highlight({
   percentage,
+  onPress,
 }: Props & TouchableOpacityProps) {
   return (
     <TouchableOpacity
@@ -23,6 +25,7 @@ export default function Highlight({
           ? { backgroundColor: colors.greenLight }
           : { backgroundColor: colors.redLight },
       ]}
+      onPress={onPress}
     >
       <Text style={styles.percentage}>{percentage}%</Text>
       <Text>das refeições dentro da dieta</Text>

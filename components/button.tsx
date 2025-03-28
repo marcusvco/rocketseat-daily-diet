@@ -15,6 +15,7 @@ interface Props {
   Icon: React.FC<IconProps>
   text: string
   variant?: variants
+  onPress: () => void
 }
 
 // TODO: Change color when pressed
@@ -22,6 +23,7 @@ export default function Button({
   text,
   variant = "primary",
   Icon,
+  onPress,
 }: Props & TouchableOpacityProps) {
   return (
     <TouchableOpacity
@@ -31,6 +33,7 @@ export default function Button({
           ? { backgroundColor: colors.gray200 }
           : { backgroundColor: colors.white, borderWidth: 1 },
       ]}
+      onPress={onPress}
     >
       <Icon
         size={18}
