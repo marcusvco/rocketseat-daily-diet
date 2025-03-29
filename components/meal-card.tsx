@@ -24,8 +24,8 @@ export default function MealCard({ item }: Props & TouchableOpacityProps) {
         style={[
           styles.circle,
           item.isHealthy
-            ? { backgroundColor: colors.greenLight }
-            : { backgroundColor: colors.redLight },
+            ? { backgroundColor: colors.greenMid }
+            : { backgroundColor: colors.redMid },
         ]}
       />
     </TouchableOpacity>
