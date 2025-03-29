@@ -44,7 +44,7 @@ export default function HeaderDashboard({ percentage }: Props) {
 
 const styles = StyleSheet.create({
   container: {
-    height: 200,
+    height: 172,
     alignItems: "center",
     justifyContent: "center",
   },

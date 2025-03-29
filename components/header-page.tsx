@@ -1,60 +1,43 @@
 import { colors } from "@/constants/colors"
 import { fonts } from "@/constants/fonts"
 import { useRouter } from "expo-router"
+import { StatusBar } from "expo-status-bar"
 import { ArrowLeft } from "phosphor-react-native"
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 
 interface Props {
-  percentage: number
+  isHealthy?: boolean
 }
 
-export default function HeaderPage({ percentage }: Props) {
+export default function HeaderPage({ isHealthy }: Props) {
   const router = useRouter()
-  function isPercentagePositive() {
-    return percentage > 50
-  }
 
   return (
-    <View
-      style={[
-        styles.container,
-        isPercentagePositive()
-          ? { backgroundColor: colors.greenLight }
-          : { backgroundColor: colors.redLight },
-      ]}
-    >
+    <View style={styles.container}>
+      <StatusBar style="dark" backgroundColor={colors.gray500} />
       <TouchableOpacity style={styles.icon} onPress={router.dismissAll}>
-        <ArrowLeft
-          size={32}
-          color={isPercentagePositive() ? colors.greenDark : colors.redDark}
-        />
+        <ArrowLeft size={24} />
       </TouchableOpacity>
-
-      {/* <View> */}
-      <Text style={styles.percentage}>{percentage}%</Text>
-      <Text style={styles.subtitle}>das refeições dentro da dieta</Text>
-      {/* </View> */}
+      <Text style={styles.title}>Nova refeição</Text>
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   container: {
-    height: 200,
-    alignItems: "center",
+    height: 104,
+    padding: 24,
+    flexDirection: "row",
     justifyContent: "center",
+    backgroundColor: colors.gray500,
+  },
+  title: {
+    fontSize: fonts.size.lg,
+    fontFamily: fonts.family.bold,
   },
   icon: {
     top: 24,
     left: 24,
     position: "absolute",
-  },
-  percentage: {
-    fontSize: fonts.size.xxl,
-    fontFamily: fonts.family.bold,
-  },
-  subtitle: {
-    fontSize: fonts.size.sm,
-    fontFamily: fonts.family.regular,
   },
 })
