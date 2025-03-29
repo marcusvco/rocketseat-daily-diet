@@ -1,13 +1,13 @@
-import { SectionList, StyleSheet, Text, View } from "react-native"
-import "../global.css"
-import Header from "@/components/header"
-import { colors } from "@/constants/colors"
-import Highlight from "@/components/highlight"
-import { fonts } from "@/constants/fonts"
 import Button from "@/components/button"
-import { Plus } from "phosphor-react-native"
+import Header from "@/components/header"
+import Highlight from "@/components/highlight"
 import MealsSectionList from "@/components/meals-section-list"
+import { colors } from "@/constants/colors"
+import { fonts } from "@/constants/fonts"
 import { useRouter } from "expo-router"
+import { Plus } from "phosphor-react-native"
+import { StyleSheet, Text, View } from "react-native"
+import "../global.css"
 
 const data = [
   {

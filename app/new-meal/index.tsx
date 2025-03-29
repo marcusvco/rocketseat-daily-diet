@@ -4,10 +4,12 @@ import Input from "@/components/input"
 import Select from "@/components/select"
 import { colors } from "@/constants/colors"
 import { fonts } from "@/constants/fonts"
-import { StatusBar } from "expo-status-bar"
+import { useRouter } from "expo-router"
 import { StyleSheet, Text, View } from "react-native"
 
 export default function NewMeal() {
+  const router = useRouter()
+
   return (
     <View style={styles.container}>
       <HeaderPage isHealthy={true} />
@@ -24,7 +26,15 @@ export default function NewMeal() {
             <Select />
           </View>
         </View>
-        <Button text="Cadastrar refeição" onPress={() => {}} />
+        <Button
+          text="Cadastrar refeição"
+          onPress={() =>
+            router.navigate({
+              pathname: "/submition",
+              params: { status: "success" },
+            })
+          }
+        />
       </View>
     </View>
   )

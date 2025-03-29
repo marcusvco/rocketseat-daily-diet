@@ -3,7 +3,6 @@ import HeaderDashboard from "@/components/header-dashboard"
 import { colors } from "@/constants/colors"
 import { fonts } from "@/constants/fonts"
 import { useLocalSearchParams } from "expo-router"
-import { StatusBar } from "expo-status-bar"
 import { StyleSheet, Text, View } from "react-native"
 
 //TODO: Fix cards horizontal padding

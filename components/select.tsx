@@ -1,12 +1,12 @@
-import { Circle } from "phosphor-react-native"
-import Button from "./button"
-import { StyleSheet, View } from "react-native"
 import { colors } from "@/constants/colors"
+import { StyleSheet, View } from "react-native"
+import Button from "./button"
 
 export default function Select() {
   return (
     <View style={styles.container}>
       <Button
+        flex={1}
         text="Sim"
         variant="ghost"
         Component={
@@ -17,6 +17,7 @@ export default function Select() {
         onPress={() => {}}
       />
       <Button
+        flex={1}
         text="Não"
         variant="ghost"
         Component={

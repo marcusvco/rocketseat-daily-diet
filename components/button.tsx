@@ -16,6 +16,7 @@ interface Props {
   Component?: ReactElement
   text: string
   variant?: variants
+  flex?: number
   onPress: () => void
 }
 
@@ -26,6 +27,8 @@ export default function Button({
   Icon,
   Component,
   onPress,
+  style,
+  flex,
 }: Props & TouchableOpacityProps) {
   function getStyle(variant: variants) {
     switch (variant) {
@@ -41,7 +44,7 @@ export default function Button({
   }
   return (
     <TouchableOpacity
-      style={[styles.container, getStyle(variant)]}
+      style={[styles.container, getStyle(variant), style, { flex: flex }]}
       onPress={onPress}
     >
       {Icon && (
@@ -70,13 +73,14 @@ export default function Button({
 const styles = StyleSheet.create({
   container: {
     gap: 12,
-    flex: 1,
-    maxHeight: 50,
     minHeight: 50,
-    borderRadius: 6,
-    justifyContent: "center",
+    maxHeight: 50,
     alignItems: "center",
+    borderRadius: 6,
     flexDirection: "row",
+    justifyContent: "center",
+    paddingVertical: 16,
+    paddingHorizontal: 24,
   },
   text: {
     fontFamily: fonts.family.bold,
