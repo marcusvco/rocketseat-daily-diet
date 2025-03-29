@@ -27,7 +27,7 @@ export default function RootLayout() {
   return (
     <ThemeProvider value={DefaultTheme}>
       <StatusBar style="dark" backgroundColor={colors.white} />
-      <SafeAreaView className="flex-1">
+      <SafeAreaView style={{ flex: 1 }}>
         <Stack screenOptions={{ headerShown: false }} />
       </SafeAreaView>
     </ThemeProvider>

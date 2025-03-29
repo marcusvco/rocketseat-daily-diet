@@ -1,5 +1,5 @@
 import DashboardCard from "@/components/dashboard-card"
-import HeaderPage from "@/components/header-page"
+import HeaderDashboard from "@/components/header-dashboard"
 import { colors } from "@/constants/colors"
 import { fonts } from "@/constants/fonts"
 import { useLocalSearchParams } from "expo-router"
@@ -16,11 +16,7 @@ export default function Dashboard() {
 
   return (
     <View style={styles.container}>
-      <StatusBar
-        style="dark"
-        backgroundColor={percentage > 50 ? colors.greenLight : colors.redLight}
-      />
-      <HeaderPage percentage={percentage} />
+      <HeaderDashboard percentage={percentage} />
       <View style={styles.content}>
         <Text style={styles.title}>Estatísticas gerais</Text>
         <View style={styles.cardsSection}>
@@ -36,12 +32,14 @@ export default function Dashboard() {
           />
           <View style={styles.cardsRow}>
             <DashboardCard
-              title={109}
+              title={99}
+              maxWidth="50%"
               color={colors.greenLight}
               subtitle="refeições dentro da dieta"
             />
             <DashboardCard
-              title={109}
+              title={10}
+              maxWidth="50%"
               color={colors.redLight}
               subtitle="refeições fora da dieta"
             />
@@ -63,6 +61,7 @@ const styles = StyleSheet.create({
   },
   content: {
     flex: 1,
+    marginTop: -32,
     alignItems: "center",
     paddingHorizontal: 24,
     backgroundColor: colors.white,
