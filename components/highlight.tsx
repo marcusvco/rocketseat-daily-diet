@@ -10,7 +10,6 @@ import {
 
 interface Props {
   percentage: number
-  onPress: () => void
 }
 
 export default function Highlight({

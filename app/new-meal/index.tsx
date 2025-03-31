@@ -1,31 +1,56 @@
 import Button from "@/components/button"
+import Content from "@/components/content"
 import HeaderPage from "@/components/header-page"
 import Input from "@/components/input"
 import Select from "@/components/select"
-import { colors } from "@/constants/colors"
 import { fonts } from "@/constants/fonts"
-import { useRouter } from "expo-router"
+import { useLocalSearchParams, useRouter } from "expo-router"
 import { StyleSheet, Text, View } from "react-native"
 
 export default function NewMeal() {
   const router = useRouter()
+  const params = useLocalSearchParams()
+
+  let meal: {
+    time: string
+    name: string
+    description: string
+    isHealthy: boolean
+  } = {} as {
+    time: string
+    name: string
+    description: string
+    isHealthy: boolean
+  }
+
+  if (params.meal) {
+    const mealString = params.meal as string
+    meal = JSON.parse(mealString)
+  }
 
   return (
     <View style={styles.container}>
-      <HeaderPage isHealthy={true} />
-      <View style={styles.content}>
+      <HeaderPage
+        title={!params.meal ? "Nova refeição" : "Refeição"}
+        isHealthy={meal.isHealthy}
+      />
+
+      <Content>
         <View style={styles.form}>
-          <Input label="Nome" />
-          <Input label="Descrição" />
+          <Input label="Nome" value={meal.name} />
+          <Input label="Descrição" value={meal.description} />
+
           <View style={styles.formRow}>
-            <Input label="Data" flex={1} />
-            <Input label="Hora" flex={1} />
+            <Input label="Data" flex={1} value={meal.time} />
+            <Input label="Hora" flex={1} value={meal.time} />
           </View>
+
           <View style={styles.select}>
             <Text style={styles.selectText}>Está dentro da dieta</Text>
             <Select />
           </View>
         </View>
+
         <Button
           text="Cadastrar refeição"
           onPress={() =>
@@ -35,7 +60,7 @@ export default function NewMeal() {
             })
           }
         />
-      </View>
+      </Content>
     </View>
   )
 }
@@ -43,16 +68,6 @@ export default function NewMeal() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  content: {
-    flex: 1,
-    marginTop: -28,
-    justifyContent: "space-between",
-    paddingVertical: 40,
-    backgroundColor: colors.white,
-    paddingHorizontal: 24,
-    borderTopLeftRadius: 20,
-    borderTopRightRadius: 20,
   },
   form: {
     gap: 24,

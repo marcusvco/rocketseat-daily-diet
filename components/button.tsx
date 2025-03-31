@@ -17,7 +17,6 @@ interface Props {
   text: string
   variant?: variants
   flex?: number
-  onPress: () => void
 }
 
 // TODO: Change color when pressed

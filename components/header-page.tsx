@@ -6,19 +6,25 @@ import { ArrowLeft } from "phosphor-react-native"
 import { StyleSheet, Text, TouchableOpacity, View } from "react-native"
 
 interface Props {
+  title: string
   isHealthy?: boolean
 }
 
-export default function HeaderPage({ isHealthy }: Props) {
+export default function HeaderPage({ title, isHealthy }: Props) {
   const router = useRouter()
 
+  function getBackgroundColor() {
+    if (isHealthy == null) return colors.gray500
+    return isHealthy ? colors.greenLight : colors.redLight
+  }
+
   return (
-    <View style={styles.container}>
-      <StatusBar style="dark" backgroundColor={colors.gray500} />
+    <View style={[styles.container, { backgroundColor: getBackgroundColor() }]}>
+      <StatusBar style="dark" backgroundColor={getBackgroundColor()} />
       <TouchableOpacity style={styles.icon} onPress={router.dismissAll}>
         <ArrowLeft size={24} />
       </TouchableOpacity>
-      <Text style={styles.title}>Nova refeição</Text>
+      <Text style={styles.title}>{title}</Text>
     </View>
   )
 }
@@ -29,7 +35,6 @@ const styles = StyleSheet.create({
     padding: 24,
     flexDirection: "row",
     justifyContent: "center",
-    backgroundColor: colors.gray500,
   },
   title: {
     fontSize: fonts.size.lg,

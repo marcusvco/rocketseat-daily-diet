@@ -1,6 +1,6 @@
 import { colors } from "@/constants/colors"
 import { fonts } from "@/constants/fonts"
-import { StyleSheet, Text, TextInput, View } from "react-native"
+import { StyleSheet, Text, TextInput, TextInputProps, View } from "react-native"
 
 interface Props {
   label: string
@@ -8,11 +8,12 @@ interface Props {
 }
 
 //TODO: Change style when active
-export default function Input({ label, flex }: Props) {
+//TODO: Finish style (padding, font, etc)
+export default function Input({ label, flex, value }: Props & TextInputProps) {
   return (
     <View style={{ flex: flex }}>
-      <Text>{label}</Text>
-      <TextInput style={styles.input} />
+      <Text style={styles.label}>{label}</Text>
+      <TextInput style={styles.input} value={value} />
     </View>
   )
 }

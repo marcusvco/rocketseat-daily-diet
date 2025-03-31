@@ -1,4 +1,5 @@
 import { fonts } from "@/constants/fonts"
+import { useRouter } from "expo-router"
 import { SectionList, StyleSheet, Text } from "react-native"
 import MealCard from "./meal-card"
 
@@ -12,9 +13,12 @@ interface Props {
 }
 
 export default function MealsSectionList({ data }: Props) {
+  const router = useRouter()
+
   function findDateIndex(date: string) {
     return data.indexOf(data.find((item) => item.date === date)!)
   }
+
   return (
     <SectionList
       style={styles.container}
@@ -33,7 +37,17 @@ export default function MealsSectionList({ data }: Props) {
         )
       }}
       renderItem={({ item }) => {
-        return <MealCard item={item} />
+        return (
+          <MealCard
+            item={item}
+            onPress={() =>
+              router.navigate({
+                pathname: "/meal",
+                params: { meal: JSON.stringify(item) },
+              })
+            }
+          />
+        )
       }}
     />
   )

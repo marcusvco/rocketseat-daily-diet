@@ -8,9 +8,7 @@ import { StyleSheet, Text, View } from "react-native"
 //TODO: Fix cards horizontal padding
 export default function Dashboard() {
   const params = useLocalSearchParams()
-  const percentageString: string = Array.isArray(params.percentage)
-    ? params.percentage.join(", ")
-    : params.percentage
+  const percentageString: string = params.percentage as string
   const percentage = parseFloat(percentageString)
 
   return (

@@ -1,5 +1,6 @@
 import { colors } from "@/constants/colors"
 import { fonts } from "@/constants/fonts"
+import { useContext } from "react"
 import {
   StyleSheet,
   Text,
@@ -12,9 +13,12 @@ interface Props {
   item: { time: string; name: string; isHealthy: boolean }
 }
 
-export default function MealCard({ item }: Props & TouchableOpacityProps) {
+export default function MealCard({
+  item,
+  onPress,
+}: Props & TouchableOpacityProps) {
   return (
-    <TouchableOpacity style={styles.container}>
+    <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.textContainer}>
         <Text style={styles.time}>{item.time}</Text>
         <Text style={styles.divider}>|</Text>
