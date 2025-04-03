@@ -61,6 +61,7 @@ const data = [
 
 export default function Index() {
   const router = useRouter()
+
   return (
     <View style={styles.container}>
       <Header />

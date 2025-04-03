@@ -8,19 +8,21 @@ interface Props {
 }
 
 //TODO: Change style when active
-//TODO: Finish style (padding, font, etc)
 export default function Input({ label, flex, value }: Props & TextInputProps) {
   return (
     <View style={{ flex: flex }}>
       <Text style={styles.label}>{label}</Text>
-      <TextInput style={styles.input} value={value} />
+      <TextInput style={styles.input} value={value} multiline />
     </View>
   )
 }
 
 const styles = StyleSheet.create({
   input: {
+    padding: 14,
+    fontSize: fonts.size.md,
     marginTop: 4,
+    fontFamily: fonts.family.regular,
     borderColor: colors.gray500,
     borderWidth: 1,
     borderRadius: 6,
