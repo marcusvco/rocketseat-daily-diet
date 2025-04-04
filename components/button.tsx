@@ -1,7 +1,7 @@
 import { colors } from "@/constants/colors"
 import { fonts } from "@/constants/fonts"
 import { IconProps } from "phosphor-react-native"
-import React, { ReactElement } from "react"
+import React, { ReactElement, useEffect, useState } from "react"
 import {
   StyleSheet,
   Text,
@@ -12,23 +12,30 @@ import {
 type variants = "primary" | "outline" | "ghost"
 
 interface Props {
-  Icon?: React.FC<IconProps>
-  Component?: ReactElement
   text: string
-  variant?: variants
   flex?: number
+  Icon?: React.FC<IconProps>
+  active?: boolean
+  variant?: variants
+  Component?: ReactElement
+  customActiveStyle?: object
 }
 
 // TODO: Change color when pressed
 export default function Button({
   text,
-  variant = "primary",
-  Icon,
-  Component,
-  onPress,
-  style,
   flex,
+  Icon,
+  style,
+  active,
+  variant = "primary",
+  onPress,
+  Component,
+  customActiveStyle,
 }: Props & TouchableOpacityProps) {
+  const [buttonActive, setButtonActive] = useState(false)
+  const [defaultStyles, setDefaultStyles] = useState({})
+
   function getStyle(variant: variants) {
     switch (variant) {
       case "primary":
@@ -41,10 +48,35 @@ export default function Button({
         return { backgroundColor: colors.gray200 }
     }
   }
+
+  function getActiveStyle(variant: variants) {
+    switch (variant) {
+      case "primary":
+        return { backgroundColor: colors.gray100 }
+      case "outline":
+        return { backgroundColor: colors.gray500, borderWidth: 1 }
+      case "ghost":
+        return { backgroundColor: colors.gray600 }
+      default:
+        return { backgroundColor: colors.gray200 }
+    }
+  }
+
+  useEffect(() => {
+    if (active !== undefined) setButtonActive(active)
+    if (!buttonActive) return setDefaultStyles(getStyle(variant))
+    if (customActiveStyle) return setDefaultStyles(customActiveStyle)
+
+    setDefaultStyles(getActiveStyle(variant))
+  }, [variant, buttonActive, active])
+
   return (
     <TouchableOpacity
-      style={[styles.container, getStyle(variant), style, { flex: flex }]}
-      onPress={onPress}
+      style={[styles.container, defaultStyles, style, { flex: flex }]}
+      onPress={(event) => {
+        setButtonActive(!buttonActive)
+        if (onPress) onPress(event)
+      }}
     >
       {Icon && (
         <Icon

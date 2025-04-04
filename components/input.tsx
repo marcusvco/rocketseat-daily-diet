@@ -8,11 +8,21 @@ interface Props {
 }
 
 //TODO: Change style when active
-export default function Input({ label, flex, value }: Props & TextInputProps) {
+export default function Input({
+  label,
+  flex,
+  value,
+  onChangeText,
+}: Props & TextInputProps) {
   return (
     <View style={{ flex: flex }}>
       <Text style={styles.label}>{label}</Text>
-      <TextInput style={styles.input} value={value} multiline />
+      <TextInput
+        style={styles.input}
+        value={value}
+        onChangeText={onChangeText}
+        multiline
+      />
     </View>
   )
 }
