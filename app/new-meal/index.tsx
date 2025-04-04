@@ -64,6 +64,7 @@ export default function NewMeal() {
             onChangeText={(text) => (meal.description = text)}
           />
 
+          {/* TODO: Add date picker */}
           <View style={styles.formRow}>
             <Input
               label="Data"
@@ -78,7 +79,6 @@ export default function NewMeal() {
               onChangeText={(text) => (meal.time = text)}
             />
           </View>
-
           <View style={styles.select}>
             <Text style={styles.selectText}>Está dentro da dieta</Text>
             <Select onChange={(value) => (meal.isHealthy = value)} />

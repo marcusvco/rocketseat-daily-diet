@@ -4,10 +4,11 @@ import CustomAlert from "@/components/custom-alert"
 import HeaderPage from "@/components/header-page"
 import { colors } from "@/constants/colors"
 import { fonts } from "@/constants/fonts"
+import { deleteMeal } from "@/storage/meal/delete-meal"
 import { useLocalSearchParams, useRouter } from "expo-router"
 import { PencilSimpleLine, Trash } from "phosphor-react-native"
 import { useState } from "react"
-import { StyleSheet, Text, View } from "react-native"
+import { Alert, StyleSheet, Text, View } from "react-native"
 
 export default function Meal() {
   const router = useRouter()
@@ -16,6 +17,15 @@ export default function Meal() {
   const params = useLocalSearchParams()
   const mealString = params.meal as string
   const meal = JSON.parse(mealString)
+
+  async function handleDeleteMeal() {
+    try {
+      await deleteMeal(meal.id)
+      router.dismissAll()
+    } catch (error) {
+      Alert.alert("Erro", "Não foi possível excluir a refeição")
+    }
+  }
 
   return (
     <View style={styles.container}>
@@ -58,7 +68,7 @@ export default function Meal() {
         visible={visible}
         message="Deseja realmente excluir o registro da refeição?"
         onClose={() => setVisible(false)}
-        onConfirm={() => {}}
+        onConfirm={handleDeleteMeal}
         confirmText="Sim, excluir"
       />
     </View>

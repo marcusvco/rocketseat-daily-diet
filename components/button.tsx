@@ -21,7 +21,6 @@ interface Props {
   customActiveStyle?: object
 }
 
-// TODO: Change color when pressed
 export default function Button({
   text,
   flex,
