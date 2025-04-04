@@ -1,12 +1,8 @@
 import { fonts } from "@/constants/fonts"
+import { MealList } from "@/storage/meal/meal-list"
 import { useRouter } from "expo-router"
 import { SectionList, StyleSheet, Text } from "react-native"
 import MealCard from "./meal-card"
-
-type MealList = {
-  date: string
-  data: { time: string; name: string; isHealthy: boolean }[]
-}[]
 
 interface Props {
   data: MealList

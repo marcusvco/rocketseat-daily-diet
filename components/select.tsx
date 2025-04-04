@@ -1,14 +1,25 @@
 import { colors } from "@/constants/colors"
-import { useRef, useState } from "react"
-import { StyleSheet, TouchableOpacityProps, View } from "react-native"
+import { useEffect, useState } from "react"
+import { StyleSheet, View } from "react-native"
 import Button from "./button"
-import { TouchableOpacity } from "react-native"
 
 type SelectTypes = "yes" | "no"
 
-export default function Select({}: TouchableOpacityProps) {
+interface Props {
+  onChange: (value: boolean) => void
+}
+
+export default function Select({ onChange }: Props) {
   const [selectedYes, setSelectedYes] = useState(false)
   const [selectedNo, setSelectedNo] = useState(false)
+
+  useEffect(() => {
+    if (selectedYes) {
+      onChange(true)
+    } else {
+      onChange(false)
+    }
+  }, [selectedYes, selectedNo])
 
   function handleSelect(type: SelectTypes) {
     if (type === "yes") {

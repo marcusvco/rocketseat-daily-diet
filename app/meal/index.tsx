@@ -1,6 +1,6 @@
-import Alert from "@/components/alert"
 import Button from "@/components/button"
 import Content from "@/components/content"
+import CustomAlert from "@/components/custom-alert"
 import HeaderPage from "@/components/header-page"
 import { colors } from "@/constants/colors"
 import { fonts } from "@/constants/fonts"
@@ -41,7 +41,7 @@ export default function Meal() {
             onPress={() =>
               router.navigate({
                 pathname: "/new-meal",
-                params: { meal: JSON.stringify(meal) },
+                params: { mealId: meal.id },
               })
             }
           />
@@ -54,7 +54,7 @@ export default function Meal() {
         </View>
       </Content>
 
-      <Alert
+      <CustomAlert
         visible={visible}
         message="Deseja realmente excluir o registro da refeição?"
         onClose={() => setVisible(false)}

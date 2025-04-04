@@ -4,63 +4,46 @@ import Highlight from "@/components/highlight"
 import MealsSectionList from "@/components/meals-section-list"
 import { colors } from "@/constants/colors"
 import { fonts } from "@/constants/fonts"
-import { useRouter } from "expo-router"
+import { getMeals } from "@/storage/meal/get-meals"
+import { MealList } from "@/storage/meal/meal-list"
+import { useFocusEffect, useRouter } from "expo-router"
 import { Plus } from "phosphor-react-native"
-import { StyleSheet, Text, View } from "react-native"
+import { useCallback, useState } from "react"
+import { Alert, StyleSheet, Text, View } from "react-native"
 import "../global.css"
-
-const data = [
-  {
-    date: "12.08.22",
-    data: [
-      {
-        time: "20:00",
-        name: "X-Tudo",
-        isHealthy: false,
-        description: "Pão, carne, queijo, alface, tomate, maionese",
-      },
-      {
-        time: "15:00",
-        name: "Whey protein com leite",
-        isHealthy: true,
-        description: "Whey protein, leite desnatado",
-      },
-      {
-        time: "10:00",
-        name: "Pão de queijo",
-        isHealthy: false,
-        description: "Pão de queijo",
-      },
-    ],
-  },
-  {
-    date: "11.08.22",
-    data: [
-      {
-        time: "20:00",
-        name: "X-Tudo",
-        isHealthy: false,
-        description:
-          "Pão, carne, queijo, alface, tomate, maionese, bacon, ovo.",
-      },
-      {
-        time: "15:00",
-        name: "Whey protein com leite",
-        isHealthy: true,
-        desription: "Whey protein, leite desnatado",
-      },
-      {
-        time: "10:00",
-        name: "Pão de queijo",
-        isHealthy: false,
-        description: "Pão de queijo",
-      },
-    ],
-  },
-]
 
 export default function Index() {
   const router = useRouter()
+  const [mealsList, setMealsList] = useState<MealList>([])
+
+  async function fetchMeals() {
+    try {
+      const meals = await getMeals()
+      const mealList: MealList = []
+      meals.forEach((meal) => {
+        const existingSection = mealList.find(
+          (section) => section.date === meal.date
+        )
+
+        if (existingSection) {
+          existingSection.data.push(meal)
+        } else {
+          mealList.push({ date: meal.date, data: [meal] })
+        }
+      })
+
+      setMealsList(mealList)
+    } catch (error) {
+      console.log("error", error)
+      Alert.alert("Erro", "Não foi possível carregar as refeições")
+    }
+  }
+
+  useFocusEffect(
+    useCallback(() => {
+      fetchMeals()
+    }, [])
+  )
 
   return (
     <View style={styles.container}>
@@ -85,7 +68,7 @@ export default function Index() {
         />
       </View>
 
-      <MealsSectionList data={data} />
+      <MealsSectionList data={mealsList} />
     </View>
   )
 }
