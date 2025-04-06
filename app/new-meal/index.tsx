@@ -49,7 +49,11 @@ export default function NewMeal() {
   }
 
   async function fetchData(mealId: string) {
-    setMeal(await getMeal(mealId))
+    try {
+      setMeal(await getMeal(mealId))
+    } catch (error) {
+      Alert.alert("Erro", "Não foi possível carregar a refeição")
+    }
   }
 
   async function handleAddMeal() {

@@ -5,18 +5,21 @@ import HeaderPage from "@/components/header-page"
 import { colors } from "@/constants/colors"
 import { fonts } from "@/constants/fonts"
 import { deleteMeal } from "@/storage/meal/delete-meal"
+import { getMeal } from "@/storage/meal/get-meal"
+import { MealDTO } from "@/storage/meal/meal-dto"
 import { useLocalSearchParams, useRouter } from "expo-router"
 import { PencilSimpleLine, Trash } from "phosphor-react-native"
-import { useState } from "react"
-import { Alert, StyleSheet, Text, View } from "react-native"
+import { useEffect, useState } from "react"
+import { ActivityIndicator, Alert, StyleSheet, Text, View } from "react-native"
 
+//TODO: Add healthy/unhealthy tag
 export default function Meal() {
   const router = useRouter()
-  const [visible, setVisible] = useState<boolean>(false)
+  const { mealId } = useLocalSearchParams()
 
-  const params = useLocalSearchParams()
-  const mealString = params.meal as string
-  const meal = JSON.parse(mealString)
+  const [meal, setMeal] = useState<MealDTO>({} as MealDTO)
+  const [visible, setVisible] = useState<boolean>(false)
+  const [isLoading, setIsLoading] = useState<boolean>(false)
 
   async function handleDeleteMeal() {
     try {
@@ -27,22 +30,47 @@ export default function Meal() {
     }
   }
 
+  async function fetchData(mealId: string) {
+    setIsLoading(true)
+
+    try {
+      const mealTeste = await getMeal(mealId)
+      setMeal(mealTeste)
+    } catch (error) {
+      Alert.alert("Erro", "Não foi possível carregar a refeição")
+    }
+
+    setIsLoading(false)
+  }
+
+  useEffect(() => {
+    if (mealId) {
+      fetchData(mealId as string)
+    }
+  }, [mealId])
+
   return (
     <View style={styles.container}>
       <HeaderPage title="Refeição" isHealthy={meal.isHealthy} />
 
       <Content>
-        <View style={styles.info}>
-          <View style={styles.section}>
-            <Text style={styles.title}>{meal.name}</Text>
-            <Text style={styles.description}>{meal.description}</Text>
-          </View>
+        {isLoading ? (
+          <ActivityIndicator />
+        ) : (
+          <View style={styles.info}>
+            <View style={styles.section}>
+              <Text style={styles.title}>{meal.name}</Text>
+              <Text style={styles.description}>{meal.description}</Text>
+            </View>
 
-          <View style={styles.section}>
-            <Text style={styles.secondTitle}>Data e hora</Text>
-            <Text style={styles.time}>{meal.time}</Text>
+            <View style={styles.section}>
+              <Text style={styles.secondTitle}>Data e hora</Text>
+              <Text style={styles.time}>
+                {meal.date ? meal.date.toLocaleString("pt-BR") : ""}
+              </Text>
+            </View>
           </View>
-        </View>
+        )}
 
         <View style={styles.buttons}>
           <Button
@@ -55,6 +83,7 @@ export default function Meal() {
               })
             }
           />
+
           <Button
             text="Excluir refeição"
             variant="outline"

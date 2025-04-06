@@ -1,13 +1,14 @@
 import { fonts } from "@/constants/fonts"
-import { MealList } from "@/storage/meal/meal-list"
 import { useRouter } from "expo-router"
 import { SectionList, StyleSheet, Text } from "react-native"
 import MealCard from "./meal-card"
+import { MealListDTO } from "@/storage/meal/meal-list-dto"
 
 interface Props {
-  data: MealList
+  data: MealListDTO
 }
 
+//TODO: Change section header to use date format
 export default function MealsSectionList({ data }: Props) {
   const router = useRouter()
 
@@ -39,7 +40,7 @@ export default function MealsSectionList({ data }: Props) {
             onPress={() =>
               router.navigate({
                 pathname: "/meal",
-                params: { meal: JSON.stringify(item) },
+                params: { mealId: item.id },
               })
             }
           />

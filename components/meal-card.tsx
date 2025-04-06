@@ -1,6 +1,6 @@
 import { colors } from "@/constants/colors"
 import { fonts } from "@/constants/fonts"
-import { useContext } from "react"
+import { MealDTO } from "@/storage/meal/meal-dto"
 import {
   StyleSheet,
   Text,
@@ -10,7 +10,7 @@ import {
 } from "react-native"
 
 interface Props {
-  item: { time: string; name: string; isHealthy: boolean }
+  item: MealDTO
 }
 
 export default function MealCard({
@@ -20,10 +20,16 @@ export default function MealCard({
   return (
     <TouchableOpacity style={styles.container} onPress={onPress}>
       <View style={styles.textContainer}>
-        <Text style={styles.time}>{item.time}</Text>
+        <Text style={styles.time}>
+          {item.date.toLocaleTimeString("pt-BR", {
+            hour: "2-digit",
+            minute: "2-digit",
+          })}
+        </Text>
         <Text style={styles.divider}>|</Text>
         <Text style={styles.item}>{item.name}</Text>
       </View>
+
       <View
         style={[
           styles.circle,

@@ -10,15 +10,18 @@ import { MealListDTO } from "@/storage/meal/meal-list-dto"
 import { useFocusEffect, useRouter } from "expo-router"
 import { Plus } from "phosphor-react-native"
 import { useCallback, useState } from "react"
-import { Alert, StyleSheet, Text, View } from "react-native"
+import { ActivityIndicator, Alert, StyleSheet, Text, View } from "react-native"
 import "../global.css"
 
 export default function Index() {
   const router = useRouter()
+  const [isLoading, setIsLoading] = useState<boolean>(false)
   const [mealsList, setMealsList] = useState<MealListDTO>([])
   const [percentage, setPercentage] = useState<number>(0)
 
   async function fetchMeals() {
+    setIsLoading(true)
+
     try {
       const meals = await getMeals("desc")
       const mealList: MealListDTO = []
@@ -39,6 +42,7 @@ export default function Index() {
       })
 
       setMealsList(mealList)
+      setIsLoading(false)
     } catch (error) {
       Alert.alert("Erro", "Não foi possível carregar as refeições")
     }
@@ -84,7 +88,11 @@ export default function Index() {
         />
       </View>
 
-      <MealsSectionList data={mealsList} />
+      {isLoading ? (
+        <ActivityIndicator style={{ marginTop: 32 }} />
+      ) : (
+        <MealsSectionList data={mealsList} />
+      )}
     </View>
   )
 }
