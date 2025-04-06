@@ -13,7 +13,7 @@ export default function HeaderDashboard({ percentage }: Props) {
   const router = useRouter()
 
   function isPercentagePositive() {
-    return percentage > 50
+    return percentage >= 50
   }
 
   return (
@@ -27,8 +27,9 @@ export default function HeaderDashboard({ percentage }: Props) {
     >
       <StatusBar
         style="dark"
-        backgroundColor={percentage > 50 ? colors.greenLight : colors.redLight}
+        backgroundColor={percentage >= 50 ? colors.greenLight : colors.redLight}
       />
+
       <TouchableOpacity style={styles.icon} onPress={router.dismissAll}>
         <ArrowLeft
           size={32}
@@ -36,7 +37,7 @@ export default function HeaderDashboard({ percentage }: Props) {
         />
       </TouchableOpacity>
 
-      <Text style={styles.percentage}>{percentage}%</Text>
+      <Text style={styles.percentage}>{percentage.toFixed(2)}%</Text>
       <Text style={styles.subtitle}>das refeições dentro da dieta</Text>
     </View>
   )

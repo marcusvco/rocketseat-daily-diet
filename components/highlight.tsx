@@ -20,13 +20,13 @@ export default function Highlight({
     <TouchableOpacity
       style={[
         styles.container,
-        percentage > 50
+        percentage >= 50
           ? { backgroundColor: colors.greenLight }
           : { backgroundColor: colors.redLight },
       ]}
       onPress={onPress}
     >
-      <Text style={styles.percentage}>{percentage}%</Text>
+      <Text style={styles.percentage}>{percentage.toFixed(2)}%</Text>
       <Text>das refeições dentro da dieta</Text>
       <ArrowUpRight style={styles.icon} />
     </TouchableOpacity>

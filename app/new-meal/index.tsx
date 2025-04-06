@@ -8,10 +8,15 @@ import { fonts } from "@/constants/fonts"
 import { addMeal } from "@/storage/meal/add-meal"
 import { getMeal } from "@/storage/meal/get-meal"
 import { MealDTO } from "@/storage/meal/meal-dto"
+import { AppError } from "@/utils/app-error"
 import { useLocalSearchParams, useRouter } from "expo-router"
 import { useEffect, useState } from "react"
 import { Alert, StyleSheet, Text, View } from "react-native"
 import uuid from "react-native-uuid"
+import DateTimePicker from "@react-native-community/datetimepicker"
+import { colors } from "@/constants/colors"
+import RNDateTimePicker from "@react-native-community/datetimepicker"
+import { getMeals } from "@/storage/meal/get-meals"
 
 export default function NewMeal() {
   const router = useRouter()
@@ -19,6 +24,29 @@ export default function NewMeal() {
 
   const [visible, setVisible] = useState<boolean>(false)
   const [meal, setMeal] = useState<MealDTO>({} as MealDTO)
+  const [mode, setMode] = useState<any>("date")
+  const [show, setShow] = useState(false)
+  const [date, setDate] = useState(new Date())
+
+  const onChange = (event: any, selectedDate: any) => {
+    const currentDate = selectedDate
+    setShow(false)
+    setDate(currentDate)
+    meal.date = currentDate
+  }
+
+  const showMode = (currentMode: any) => {
+    setShow(true)
+    setMode(currentMode)
+  }
+
+  const showDatepicker = () => {
+    showMode("date")
+  }
+
+  const showTimepicker = () => {
+    showMode("time")
+  }
 
   async function fetchData(mealId: string) {
     setMeal(await getMeal(mealId))
@@ -28,14 +56,14 @@ export default function NewMeal() {
     try {
       meal.id = uuid.v4()
       await addMeal(meal)
+      router.navigate({
+        pathname: "/submition",
+        params: { status: meal.isHealthy ? "success" : "failure" },
+      })
     } catch (error) {
+      if (error instanceof AppError) return Alert.alert("Erro", error.message)
       Alert.alert("Erro", "Não foi possível cadastrar a refeição")
     }
-
-    router.navigate({
-      pathname: "/submition",
-      params: { status: meal.isHealthy ? "success" : "failure" },
-    })
   }
 
   useEffect(() => {
@@ -64,21 +92,30 @@ export default function NewMeal() {
             onChangeText={(text) => (meal.description = text)}
           />
 
-          {/* TODO: Add date picker */}
           <View style={styles.formRow}>
-            <Input
-              label="Data"
-              flex={1}
-              value={meal.date}
-              onChangeText={(text) => (meal.date = text)}
-            />
-            <Input
-              label="Hora"
-              flex={1}
-              value={meal.time}
-              onChangeText={(text) => (meal.time = text)}
-            />
+            <View style={{ flex: 1 }}>
+              <Text style={styles.label}>Data</Text>
+              <Button
+                text={meal.date ? meal.date.toLocaleDateString("pt-BR") : ""}
+                style={styles.input}
+                variant="outline"
+                onPress={showDatepicker}
+                customActiveStyle={styles.input}
+              />
+            </View>
+
+            <View style={{ flex: 1 }}>
+              <Text style={styles.label}>Hora</Text>
+              <Button
+                text={meal.date ? meal.date.toLocaleTimeString("pt-BR") : ""}
+                style={styles.input}
+                variant="outline"
+                onPress={showTimepicker}
+                customActiveStyle={styles.input}
+              />
+            </View>
           </View>
+
           <View style={styles.select}>
             <Text style={styles.selectText}>Está dentro da dieta</Text>
             <Select onChange={(value) => (meal.isHealthy = value)} />
@@ -98,6 +135,16 @@ export default function NewMeal() {
         onConfirm={() => {}}
         confirmText="Sim, excluir"
       />
+
+      {show && (
+        <DateTimePicker
+          mode={mode}
+          value={date}
+          testID="dateTimePicker"
+          is24Hour={true}
+          onChange={onChange}
+        />
+      )}
     </View>
   )
 }
@@ -119,5 +166,18 @@ const styles = StyleSheet.create({
   selectText: {
     fontSize: fonts.size.sm,
     fontFamily: fonts.family.bold,
+  },
+  label: {
+    fontSize: fonts.size.sm,
+    fontFamily: fonts.family.bold,
+  },
+  input: {
+    padding: 14,
+    fontSize: fonts.size.md,
+    marginTop: 4,
+    fontFamily: fonts.family.regular,
+    borderColor: colors.gray500,
+    borderWidth: 1,
+    borderRadius: 6,
   },
 })

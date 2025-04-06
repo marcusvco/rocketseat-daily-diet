@@ -3,20 +3,22 @@ import { useEffect, useState } from "react"
 import { StyleSheet, View } from "react-native"
 import Button from "./button"
 
-type SelectTypes = "yes" | "no"
+type SelectTypes = "yes" | "no" | undefined
 
 interface Props {
   onChange: (value: boolean) => void
 }
 
 export default function Select({ onChange }: Props) {
-  const [selectedYes, setSelectedYes] = useState(false)
-  const [selectedNo, setSelectedNo] = useState(false)
+  const [selectedYes, setSelectedYes] = useState<boolean>(false)
+  const [selectedNo, setSelectedNo] = useState<boolean>(false)
 
   useEffect(() => {
     if (selectedYes) {
       onChange(true)
-    } else {
+    }
+
+    if (selectedNo) {
       onChange(false)
     }
   }, [selectedYes, selectedNo])
@@ -27,8 +29,12 @@ export default function Select({ onChange }: Props) {
       setSelectedNo(false)
       return
     }
-    setSelectedNo(true)
-    setSelectedYes(false)
+
+    if (type === "no") {
+      setSelectedNo(true)
+      setSelectedYes(false)
+      return
+    }
   }
 
   return (

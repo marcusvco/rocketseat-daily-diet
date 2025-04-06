@@ -4,8 +4,9 @@ import Highlight from "@/components/highlight"
 import MealsSectionList from "@/components/meals-section-list"
 import { colors } from "@/constants/colors"
 import { fonts } from "@/constants/fonts"
+import { getPercentageHealthyMeals } from "@/storage/dashboard/get-percentage-healthy-meals"
 import { getMeals } from "@/storage/meal/get-meals"
-import { MealList } from "@/storage/meal/meal-list"
+import { MealListDTO } from "@/storage/meal/meal-list-dto"
 import { useFocusEffect, useRouter } from "expo-router"
 import { Plus } from "phosphor-react-native"
 import { useCallback, useState } from "react"
@@ -14,34 +15,49 @@ import "../global.css"
 
 export default function Index() {
   const router = useRouter()
-  const [mealsList, setMealsList] = useState<MealList>([])
+  const [mealsList, setMealsList] = useState<MealListDTO>([])
+  const [percentage, setPercentage] = useState<number>(0)
 
   async function fetchMeals() {
     try {
-      const meals = await getMeals()
-      const mealList: MealList = []
+      const meals = await getMeals("desc")
+      const mealList: MealListDTO = []
+
       meals.forEach((meal) => {
         const existingSection = mealList.find(
-          (section) => section.date === meal.date
+          (section) => section.date === meal.date.toLocaleDateString("pt-BR")
         )
 
         if (existingSection) {
           existingSection.data.push(meal)
         } else {
-          mealList.push({ date: meal.date, data: [meal] })
+          mealList.push({
+            date: meal.date.toLocaleDateString("pt-BR"),
+            data: [meal],
+          })
         }
       })
 
       setMealsList(mealList)
     } catch (error) {
-      console.log("error", error)
       Alert.alert("Erro", "Não foi possível carregar as refeições")
+    }
+  }
+
+  async function fetchHealthyPercentage() {
+    try {
+      setPercentage((await getPercentageHealthyMeals()) * 100)
+    } catch (error) {
+      Alert.alert(
+        "Erro",
+        "Não foi possível buscar a porcentagem de refeições saudáveis"
+      )
     }
   }
 
   useFocusEffect(
     useCallback(() => {
-      fetchMeals()
+      Promise.all([fetchMeals(), fetchHealthyPercentage()])
     }, [])
   )
 
@@ -50,11 +66,11 @@ export default function Index() {
       <Header />
 
       <Highlight
-        percentage={90.2}
+        percentage={percentage}
         onPress={() =>
           router.navigate({
             pathname: "/dashboard",
-            params: { percentage: 90.2 },
+            params: { percentage },
           })
         }
       />
