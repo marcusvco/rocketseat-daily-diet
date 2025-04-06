@@ -2,7 +2,7 @@ import Button from "@/components/button"
 import Content from "@/components/content"
 import CustomAlert from "@/components/custom-alert"
 import HeaderPage from "@/components/header-page"
-import { colors } from "@/constants/colors"
+import IsHealthyTag from "@/components/is-healthy-tag"
 import { fonts } from "@/constants/fonts"
 import { deleteMeal } from "@/storage/meal/delete-meal"
 import { getMeal } from "@/storage/meal/get-meal"
@@ -12,7 +12,6 @@ import { PencilSimpleLine, Trash } from "phosphor-react-native"
 import { useEffect, useState } from "react"
 import { ActivityIndicator, Alert, StyleSheet, Text, View } from "react-native"
 
-//TODO: Add healthy/unhealthy tag
 export default function Meal() {
   const router = useRouter()
   const { mealId } = useLocalSearchParams()
@@ -69,6 +68,8 @@ export default function Meal() {
                 {meal.date ? meal.date.toLocaleString("pt-BR") : ""}
               </Text>
             </View>
+
+            <IsHealthyTag isHealthy={meal.isHealthy} />
           </View>
         )}
 
@@ -107,10 +108,6 @@ export default function Meal() {
 const styles = StyleSheet.create({
   container: {
     flex: 1,
-  },
-  content: {
-    flex: 1,
-    backgroundColor: colors.white,
   },
   info: {
     gap: 24,

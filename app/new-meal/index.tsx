@@ -4,19 +4,17 @@ import CustomAlert from "@/components/custom-alert"
 import HeaderPage from "@/components/header-page"
 import Input from "@/components/input"
 import Select from "@/components/select"
+import { colors } from "@/constants/colors"
 import { fonts } from "@/constants/fonts"
 import { addMeal } from "@/storage/meal/add-meal"
 import { getMeal } from "@/storage/meal/get-meal"
 import { MealDTO } from "@/storage/meal/meal-dto"
 import { AppError } from "@/utils/app-error"
+import DateTimePicker from "@react-native-community/datetimepicker"
 import { useLocalSearchParams, useRouter } from "expo-router"
 import { useEffect, useState } from "react"
 import { Alert, StyleSheet, Text, View } from "react-native"
 import uuid from "react-native-uuid"
-import DateTimePicker from "@react-native-community/datetimepicker"
-import { colors } from "@/constants/colors"
-import RNDateTimePicker from "@react-native-community/datetimepicker"
-import { getMeals } from "@/storage/meal/get-meals"
 
 export default function NewMeal() {
   const router = useRouter()
@@ -90,6 +88,7 @@ export default function NewMeal() {
             value={meal.name}
             onChangeText={(text) => (meal.name = text)}
           />
+
           <Input
             label="Descrição"
             value={meal.description}

@@ -3,7 +3,6 @@ import AsyncStorage from "@react-native-async-storage/async-storage"
 import { meal_collection } from "../config"
 import { MealDTO } from "./meal-dto"
 
-//TODO: Add validations
 export async function addMeal(meal: MealDTO): Promise<void> {
   try {
     if (!meal.id) throw new AppError("A refeição precisa ter um id")

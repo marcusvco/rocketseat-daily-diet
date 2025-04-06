@@ -8,7 +8,6 @@ interface Props {
   data: MealListDTO
 }
 
-//TODO: Change section header to use date format
 export default function MealsSectionList({ data }: Props) {
   const router = useRouter()
 
