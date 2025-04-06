@@ -37,7 +37,9 @@ export default function HeaderDashboard({ percentage }: Props) {
         />
       </TouchableOpacity>
 
-      <Text style={styles.percentage}>{percentage.toFixed(2)}%</Text>
+      <Text style={styles.percentage}>
+        {percentage.toFixed(2).replace(/\.00$/, "")}%
+      </Text>
       <Text style={styles.subtitle}>das refeições dentro da dieta</Text>
     </View>
   )

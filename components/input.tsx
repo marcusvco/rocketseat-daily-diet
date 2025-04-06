@@ -7,7 +7,6 @@ interface Props {
   flex?: number
 }
 
-//TODO: Change style when active
 export default function Input({
   label,
   flex,
@@ -17,6 +16,7 @@ export default function Input({
   return (
     <View style={{ flex: flex }}>
       <Text style={styles.label}>{label}</Text>
+
       <TextInput
         style={styles.input}
         value={value}

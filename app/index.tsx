@@ -27,15 +27,21 @@ export default function Index() {
       const mealList: MealListDTO = []
 
       meals.forEach((meal) => {
+        const formatedDate =
+          meal.date
+            .toLocaleDateString("pt-BR")
+            .slice(0, 6)
+            .replaceAll("/", ".") +
+          meal.date.toLocaleDateString("pt-BR").slice(8, 10)
         const existingSection = mealList.find(
-          (section) => section.date === meal.date.toLocaleDateString("pt-BR")
+          (section) => section.date === formatedDate
         )
 
         if (existingSection) {
           existingSection.data.push(meal)
         } else {
           mealList.push({
-            date: meal.date.toLocaleDateString("pt-BR"),
+            date: formatedDate,
             data: [meal],
           })
         }

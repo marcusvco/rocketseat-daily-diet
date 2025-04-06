@@ -26,7 +26,9 @@ export default function Highlight({
       ]}
       onPress={onPress}
     >
-      <Text style={styles.percentage}>{percentage.toFixed(2)}%</Text>
+      <Text style={styles.percentage}>
+        {percentage.toFixed(2).replace(/\.00$/, "")}%
+      </Text>
       <Text>das refeições dentro da dieta</Text>
       <ArrowUpRight style={styles.icon} />
     </TouchableOpacity>
