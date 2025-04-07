@@ -6,6 +6,7 @@ interface Props {
   isHealthy: boolean
 }
 
+//TODO: Fix width
 export default function IsHealthyTag({ isHealthy }: Props) {
   return (
     <View style={styles.container}>
@@ -18,7 +19,6 @@ export default function IsHealthyTag({ isHealthy }: Props) {
         ]}
       />
 
-      {/* TODO: Fix width */}
       <Text style={styles.text}>
         {isHealthy ? "dentro da dieta" : "fora da dieta"}
       </Text>

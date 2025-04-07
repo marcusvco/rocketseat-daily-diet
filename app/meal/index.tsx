@@ -62,11 +62,17 @@ export default function Meal() {
               <Text style={styles.description}>{meal.description}</Text>
             </View>
 
-            {/* TODO: Change date and time to match figma */}
             <View style={styles.section}>
               <Text style={styles.secondTitle}>Data e hora</Text>
               <Text style={styles.time}>
-                {meal.date ? meal.date.toLocaleString("pt-BR") : ""}
+                {meal.date
+                  ? `${meal.date.toLocaleDateString(
+                      "pt-BR"
+                    )} às ${meal.date.toLocaleTimeString("pt-BR", {
+                      hour: "2-digit",
+                      minute: "2-digit",
+                    })}`
+                  : ""}
               </Text>
             </View>
 
