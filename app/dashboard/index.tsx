@@ -10,7 +10,6 @@ import { useLocalSearchParams } from "expo-router"
 import { useEffect, useState } from "react"
 import { Alert, StyleSheet, Text, View } from "react-native"
 
-//TODO: Fix percentage toFixed when it is .00
 export default function Dashboard() {
   const params = useLocalSearchParams()
   const percentageString: string = params.percentage as string

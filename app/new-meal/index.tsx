@@ -9,6 +9,7 @@ import { fonts } from "@/constants/fonts"
 import { addMeal } from "@/storage/meal/add-meal"
 import { getMeal } from "@/storage/meal/get-meal"
 import { MealDTO } from "@/storage/meal/meal-dto"
+import { updateMeal } from "@/storage/meal/update-meal"
 import { AppError } from "@/utils/app-error"
 import DateTimePicker from "@react-native-community/datetimepicker"
 import { useLocalSearchParams, useRouter } from "expo-router"
@@ -18,7 +19,7 @@ import uuid from "react-native-uuid"
 
 export default function NewMeal() {
   const router = useRouter()
-  const params = useLocalSearchParams()
+  const { mealId } = useLocalSearchParams()
 
   const [visible, setVisible] = useState<boolean>(false)
   const [meal, setMeal] = useState<MealDTO>({} as MealDTO)
@@ -68,16 +69,27 @@ export default function NewMeal() {
     }
   }
 
-  useEffect(() => {
-    if (params.mealId) {
-      fetchData(params.mealId as string)
+  async function handleUpdateMeal() {
+    try {
+      await updateMeal(meal)
+      router.navigate({
+        pathname: "/submition",
+        params: { status: meal.isHealthy ? "success" : "failure" },
+      })
+    } catch (error) {
+      if (error instanceof AppError) return Alert.alert("Erro", error.message)
+      Alert.alert("Erro", "Não foi possível atualizar a refeição")
     }
-  }, [params.mealId])
+  }
+
+  useEffect(() => {
+    if (mealId) fetchData(mealId as string)
+  }, [mealId])
 
   return (
     <View style={styles.container}>
       <HeaderPage
-        title={!params.mealId ? "Nova refeição" : "Refeição"}
+        title={!mealId ? "Nova refeição" : "Refeição"}
         isHealthy={meal.isHealthy}
       />
 
@@ -86,13 +98,13 @@ export default function NewMeal() {
           <Input
             label="Nome"
             value={meal.name}
-            onChangeText={(text) => (meal.name = text)}
+            onChangeText={(text) => setMeal({ ...meal, name: text })}
           />
 
           <Input
             label="Descrição"
             value={meal.description}
-            onChangeText={(text) => (meal.description = text)}
+            onChangeText={(text) => setMeal({ ...meal, description: text })}
           />
 
           <View style={styles.formRow}>
@@ -121,13 +133,16 @@ export default function NewMeal() {
 
           <View style={styles.select}>
             <Text style={styles.selectText}>Está dentro da dieta</Text>
-            <Select onChange={(value) => (meal.isHealthy = value)} />
+            <Select
+              value={meal.isHealthy}
+              onChange={(value) => setMeal({ ...meal, isHealthy: value })}
+            />
           </View>
         </View>
 
         <Button
-          text={!params.mealId ? "Cadastrar refeição" : "Salvar alterações"}
-          onPress={handleAddMeal}
+          text={!mealId ? "Cadastrar refeição" : "Salvar alterações"}
+          onPress={!mealId ? handleAddMeal : handleUpdateMeal}
         />
       </Content>
 

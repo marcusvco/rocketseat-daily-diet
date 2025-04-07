@@ -30,7 +30,10 @@ export default function Highlight({
         {percentage.toFixed(2).replace(/\.00$/, "")}%
       </Text>
       <Text>das refeições dentro da dieta</Text>
-      <ArrowUpRight style={styles.icon} />
+      <ArrowUpRight
+        style={styles.icon}
+        color={percentage >= 50 ? colors.greenDark : colors.redDark}
+      />
     </TouchableOpacity>
   )
 }
@@ -55,7 +58,6 @@ const styles = StyleSheet.create({
   icon: {
     top: 8,
     right: 8,
-    color: colors.greenDark,
     position: "absolute",
   },
 })

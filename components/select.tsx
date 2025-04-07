@@ -6,12 +6,19 @@ import Button from "./button"
 type SelectTypes = "yes" | "no" | undefined
 
 interface Props {
+  value: boolean | undefined
   onChange: (value: boolean) => void
 }
 
-export default function Select({ onChange }: Props) {
+export default function Select({ value, onChange }: Props) {
   const [selectedYes, setSelectedYes] = useState<boolean>(false)
   const [selectedNo, setSelectedNo] = useState<boolean>(false)
+
+  useEffect(() => {
+    if (value == undefined) return
+    if (value) setSelectedYes(true)
+    if (!value) setSelectedNo(true)
+  }, [value])
 
   useEffect(() => {
     if (selectedYes) {

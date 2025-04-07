@@ -10,7 +10,7 @@ export async function updateMeal(meal: MealDTO): Promise<void> {
       storedMeal.id === meal.id ? { ...storedMeal, ...meal } : storedMeal
     )
 
-    await AsyncStorage.setItem(meal_collection, updatedMeals)
+    await AsyncStorage.setItem(meal_collection, JSON.stringify(updatedMeals))
   } catch (error) {
     throw error
   }

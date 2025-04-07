@@ -62,6 +62,7 @@ export default function Meal() {
               <Text style={styles.description}>{meal.description}</Text>
             </View>
 
+            {/* TODO: Change date and time to match figma */}
             <View style={styles.section}>
               <Text style={styles.secondTitle}>Data e hora</Text>
               <Text style={styles.time}>
